@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 public class Producte{
     private int id=0;
+    private String nom;
     
     private HashSet<Producte> reactives=new HashSet<Producte>();
     private Iterator<Producte> iter;
@@ -11,6 +12,7 @@ public class Producte{
     public Producte(int id){this.id=id;}
     public Producte(int id,HashSet<Producte> ps){
         this.id=id; // "Producte 1 (P1) amb incompatibilitats..." -> P1 == id?
+        this.nom="P"+id;
         reactives=ps;
     }
 
@@ -21,12 +23,16 @@ public class Producte{
     }
 
     public int getId(){return id;}
+    public String getNom(){return nom;}
+
     public void printReactives(){for(Producte p:reactives) System.out.print(p.getId()+" ");}
 
     public void ini_iterator(){iter=reactives.iterator();}
     public Producte seg_iterator(){return (iter==null||!iter.hasNext())?null:iter.next();}
+
     public boolean es_reactiu(Producte p){return reactives.contains(p);}
 
+    public String toString(){return "Producte "+id;}
 
     // o 
     // public int length(){return reactives.size();}

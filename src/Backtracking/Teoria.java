@@ -43,14 +43,14 @@ public class Teoria {
     private static void BackMillorSolucio(int x[], int Xmillor[], int k, int min[]){
         int j=0;
         while(j<d.length){
-            x[k]=d[j];
+            x[k]=d[j]; // 0 1 2 3 
 
             if(x[0]+x[1]+x[2]+x[3]==OBJECTIVE){
                 if(min[0]>k){
                     for(int i=0;i<4;i++) Xmillor[i]=x[i];
                     min[0]=k;
                 }
-            } else if(x[0]+x[1]+x[2]+x[3]<OBJECTIVE && k<3 && k<min[0]-1)
+            } else if(x[0]+x[1]+x[2]+x[3]<OBJECTIVE && k<(4-1) && k<min[0]-1)
                 BackMillorSolucio(x, Xmillor, k+1, min);
             x[k]=0;
             j++;
