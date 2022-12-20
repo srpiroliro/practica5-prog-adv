@@ -78,12 +78,19 @@ class SolucioBack {
 
     }
 
+    static int elem_amount(ArrayList<ArrayList<Producte>> p){
+        int total=0;
+        for(ArrayList<Producte> a:p)
+            total+=a.size();
+        return total;
+    }
+
     static void Backtracking(
         int min[],
         ArrayList<ArrayList<Producte>> current_solution, 
         ArrayList<ArrayList<Producte>> best_solution,
-        Producte[] productes_posibles,
-        boolean marcatge[]
+        Producte[] productes_posibles, 
+        boolean marcatge[] // anar modificant productes_posibles per tal de no tenir aquesta llista
     ){
         
         int j=0, compartment;
@@ -97,6 +104,12 @@ class SolucioBack {
                     compartment++;
                 
                 current_solution.get(compartment).add(productes_posibles[j]);
+
+                if(elem_amount(current_solution)==productes_posibles.length){
+                    // solucio feta
+                } else {
+                    // recursoin
+                }
             }
             j++;
         }
