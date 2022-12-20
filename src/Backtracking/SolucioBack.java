@@ -52,9 +52,9 @@ class SolucioBack {
         }
 
 
-        // boolean matriu[][]=new boolean[num_productes][num_productes];
-        // spawn_matriu(matriu, productes);
-        // vis_matriu(matriu);
+        boolean matriu[][]=new boolean[num_productes][num_productes];
+        spawn_matriu(matriu, productes);
+        vis_matriu(matriu);
 
         int min_comp[]=new int[1];
         min_comp[0]=num_productes;
@@ -70,8 +70,7 @@ class SolucioBack {
         }
         solucio.add(new ArrayList<Producte>());
 
-        Backtracking(min_comp,tmp,solucio,productes,marcatge, 0);
-
+        Backtracking(tmp,solucio,productes,marcatge, 0);
         vis_solucio(solucio);
     }
 
@@ -82,7 +81,6 @@ class SolucioBack {
     }
 
     static void Backtracking(
-        int min[],
         ArrayList<ArrayList<Producte>> current_solution, 
         ArrayList<ArrayList<Producte>> best_solution,
         Producte[] productes_posibles, 
@@ -107,7 +105,6 @@ class SolucioBack {
 
                 current_solution.get(calaix).add(productes_posibles[j]);
                 
-
                 if(elem_amount(current_solution)==productes_posibles.length){ // CHECK: efficiency
                     if(best_solution.size()>current_solution.size()){
                         best_solution.clear();
@@ -118,7 +115,7 @@ class SolucioBack {
 
                     }
                 } else if(best_solution.size()>current_solution.size()){
-                    Backtracking(min, current_solution, best_solution, productes_posibles, marcatge, level+1);
+                    Backtracking(current_solution, best_solution, productes_posibles, marcatge, level+1);
                 }
 
                 current_solution.get(calaix).remove(current_solution.get(calaix).size()-1);
@@ -147,8 +144,8 @@ class SolucioBack {
     }
 
     static private void vis_matriu(boolean[][] m){
-        if(m.length>9) System.out.print(" ");
-        System.out.print("      ");
+        // if(m.length>9) System.out.print(" ");
+        System.out.print("       ");
         for(int y=0;y<m.length+1;y++){
             for(int x=0;x<m.length;x++) {
                 if(y==0) System.out.print("P-"+(x+1)+" ");
@@ -156,8 +153,18 @@ class SolucioBack {
                     if(x==0){
                         if(y<10) System.out.print("P-"+(y)+"  | ");
                         else System.out.print("P-"+(y)+" | ");
-                    } 
-                    System.out.print(" "+((m[y-1][x])?"-":"X")+"  ");
+                    }
+                    if(x<9) System.out.print(" "+((m[y-1][x])?"-":"X")+"  ");
+                    else System.out.print(" "+((m[y-1][x])?"-":"X")+"   ");
+                }
+            }
+            if(y==0){
+                System.out.println();
+                // if(m.length>9) System.out.print(" ");
+                System.out.print("      ");
+                for(int x=0;x<m.length;x++) {
+                    if(x<9) System.out.print("____");
+                    else System.out.print("_____");
                 }
             }
             System.out.println();
