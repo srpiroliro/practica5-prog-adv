@@ -1,13 +1,16 @@
 package Producte;
 import java.util.HashSet;
+import java.util.Iterator;
 
-class Producte{
+public class Producte{
     private int id=0;
+    
     private HashSet<Producte> reactives=new HashSet<Producte>();
+    private Iterator<Producte> iter;
     
     public Producte(int id){this.id=id;}
     public Producte(int id,HashSet<Producte> ps){
-        this.id=id;
+        this.id=id; // "Producte 1 (P1) amb incompatibilitats..." -> P1 == id?
         reactives=ps;
     }
 
@@ -16,5 +19,16 @@ class Producte{
         reactives.add(r);
         return true;
     }
-    // https://www.javatpoint.com/java-graph
+
+    public int getId(){return id;}
+    public void printReactives(){for(Producte p:reactives) System.out.print(p.getId()+" ");}
+
+    public void ini_iterator(){iter=reactives.iterator();}
+    public Producte seg_iterator(){return (iter==null||!iter.hasNext())?null:iter.next();}
+    public boolean es_reactiu(Producte p){return reactives.contains(p);}
+
+
+    // o 
+    // public int length(){return reactives.size();}
+    // public Producte get_reactive(int i){return reactives.get(i);}
 }
