@@ -1,11 +1,11 @@
 1.- Per què l’esquema de backtracking és aplicable per a resoldre aquest enunciat.
-
+        Ja que hem de prendre decisions
     
 2.- Indica quina pregunta et fas en cada nivell de l’arbre. Quines són les possibles respostes d’aquesta pregunta (domini).
-
+        Iterant pels calaixos es busca el que no conte cap reactiu amb el que estem tractant.
 
 3.- Quin és el criteri per determinar si una decisió és o no acceptable.  
-
+        Si en el calaix
 
 4.- Quin és el criteri per determinar si un conjunt de decisions és o no completable.
     Sempre ho es (calaix no te limit).
