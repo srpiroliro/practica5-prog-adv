@@ -8,6 +8,7 @@ public class Producte{
     
     private HashSet<Producte> reactives=new HashSet<Producte>();
     private Iterator<Producte> iter;
+    private int calaix;
     
     public Producte(int id){this.id=id;}
     public Producte(int id,HashSet<Producte> ps){
@@ -24,6 +25,9 @@ public class Producte{
 
     public int getId(){return id;}
     public String getNom(){return nom;}
+    public int getCalaix(){return calaix;}
+
+    public void setCalaix(int c){calaix = c;}
 
     public void printReactives(){for(Producte p:reactives) System.out.print(p.getId()+" ");}
 
