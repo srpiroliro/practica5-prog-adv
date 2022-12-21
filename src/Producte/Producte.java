@@ -12,9 +12,9 @@ public class Producte{
     
     public Producte(int id){this.id=id;this.nom="P"+id;}
     public Producte(int id,HashSet<Producte> ps){
-        // this(id); // inefficient?
-        this.id=id;
-        this.nom="P"+id;
+        this(id); // inefficient? no, sempre es millor fer crides al constructor principal 
+        // this.id=id;
+        // this.nom="P"+id;
         reactives=ps;
     }
 
