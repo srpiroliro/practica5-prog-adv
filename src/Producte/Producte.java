@@ -2,7 +2,7 @@ package Producte;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class Producte{
+public class Producte implements Comparable<Producte>{
     private int id=0;
     private String nom;
     
@@ -26,6 +26,7 @@ public class Producte{
     public int getCalaix(){return calaix;}
     public void setCalaix(int c){calaix = c;}
 
+    public int getSize(){return reactives.size();}
 
     public void printReactives(){for(Producte p:reactives) System.out.print(p.getId()+" ");}
 
@@ -36,6 +37,10 @@ public class Producte{
 
     @Override
     public String toString(){return "Producte "+id;}
+
+
+    @Override
+    public int compareTo(Producte p){return reactives.size()-p.getSize();}
 
     // o 
     // public int length(){return reactives.size();}

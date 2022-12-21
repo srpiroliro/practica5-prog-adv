@@ -3,6 +3,7 @@ package Greedy;
 import Producte.Producte;
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class SolucioVorac {
     private static final double CHANCES=0.5;
@@ -21,13 +22,20 @@ class SolucioVorac {
         boolean matriu[][]=new boolean[num_productes][num_productes];
         do_matriu(matriu, productes);
 
-        ArrayList<ArrayList<Producte>> solucio =new ArrayList<ArrayList<Producte>>(num_productes+1);
+        ArrayList<ArrayList<Producte>> solucio =new ArrayList<ArrayList<Producte>>();
         // for(int i=0; i<num_productes+1; i++) solucio.add(new ArrayList<Producte>());
         
         ArrayList<Producte> copia_productes=new ArrayList<Producte>(productes);
 
+        Collections.sort(copia_productes,Collections.reverseOrder());
+
+        long startTime = System.nanoTime();
         Greedy(solucio, copia_productes, num_productes, matriu);
+        long timeElapsed = System.nanoTime() - startTime;
         check_solucio(productes);
+
+        System.out.println("\nTotal calaixos: "+solucio.size());
+        System.out.println("Temps d'execució: "+(timeElapsed/Math.pow(10, 9))+" segons");
     }
 
     static void generate_reactives(ArrayList<Producte> productes, int num_productes){

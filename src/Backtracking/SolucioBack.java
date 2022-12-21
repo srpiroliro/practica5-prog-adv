@@ -3,6 +3,7 @@ package Backtracking;
 import Producte.Producte;
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class SolucioBack {
     private static final double CHANCES=0.5;
@@ -33,8 +34,16 @@ class SolucioBack {
 
         ArrayList<Producte> copia_productes=new ArrayList<Producte>(productes);
 
+        Collections.sort(copia_productes,Collections.reverseOrder());
+
+        long startTime = System.nanoTime();
         Backtracking(tmp,solucio, copia_productes, num_productes, matriu);
+        long timeElapsed = System.nanoTime()-startTime;
+        
         make_solucio(solucio); check_solucio(productes);
+
+        System.out.println("\nTotal calaixos: "+solucio.size());
+        System.out.println("Temps d'execució: "+(timeElapsed/Math.pow(10, 9))+" segons");
     }
 
     static void generate_reactives(ArrayList<Producte> productes, int num_productes){
