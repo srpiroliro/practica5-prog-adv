@@ -11,16 +11,15 @@ class SolucioBack {
         ArrayList<Producte> productes=new ArrayList<Producte>();
         int num_productes;
        
-        System.out.print("Indica quants productes diferents ha d'emmagatzemar l'empresa: ");
+        System.out.print("\nIndica quants productes diferents ha d'emmagatzemar l'empresa: ");
         num_productes=Integer.parseInt(System.console().readLine());
         for(int i=0; i<num_productes; i++) productes.add(new Producte(i+1));
 
-        System.out.println("Ara es procedeix a generar les deades aleatòries:");
+        System.out.println("\nAra es procedeix a generar les deades aleatòries:");
         generate_reactives(productes, num_productes);
 
         boolean matriu[][]=new boolean[num_productes][num_productes];
-        spawn_matriu(matriu, productes);
-        check_matriu(matriu, productes);
+        do_matriu(matriu, productes);
 
         boolean[] marcatge=new boolean[num_productes]; 
         ArrayList<ArrayList<Producte>> solucio =new ArrayList<ArrayList<Producte>>(), 
@@ -35,8 +34,7 @@ class SolucioBack {
         ArrayList<Producte> copia_productes=new ArrayList<Producte>(productes);
 
         Backtracking(tmp,solucio, copia_productes, num_productes, matriu);
-        make_solucio(solucio);
-        check_solucio(productes);
+        make_solucio(solucio); check_solucio(productes);
     }
 
     static void generate_reactives(ArrayList<Producte> productes, int num_productes){
@@ -47,7 +45,7 @@ class SolucioBack {
                     productes.get(y).add_reactive(productes.get(x));
                 }
             }
-            System.out.print("Producte "+(x+1)+" amb incompatibilitats amb els prodcutes: ");
+            System.out.print(productes.get(x)+" amb incompatibilitats amb els prodcutes: ");
             productes.get(x).printReactives();
             System.out.println();
             //  o
@@ -113,31 +111,27 @@ class SolucioBack {
         return false;
     }
 
-    static void spawn_matriu(boolean[][] matriu, ArrayList<Producte> prs){
-        for(int y=0;y<matriu.length;y++) 
-            for(int x=0;x<matriu.length;x++) 
-                matriu[y][x]=prs.get(y).es_reactiu(prs.get(x));
-    }
+    static void do_matriu(boolean[][] matriu, ArrayList<Producte> productes){
+        System.out.print("\n       ");
 
-    static private void check_matriu(boolean[][] m, ArrayList<Producte> productes){
-        System.out.print("       ");
-        for(int y=0;y<m.length+1;y++){
-            for(int x=0;x<m.length;x++) {
+        for(int y=0;y<matriu.length+1;y++){
+            for(int x=0;x<matriu.length;x++){
                 if(y==0) System.out.print(productes.get(x).getName()+" ");
                 else{
-                    if(x==0)
-                        System.out.print(productes.get(y-1).getName()+((y<10)?"  | ":" | "));
-                    System.out.print(" "+((m[y-1][x])?"-":"X")+((x<9)?" ":"  "));
+                    matriu[y-1][x]=productes.get(y-1).es_reactiu(productes.get(x));
+                    if(x==0) System.out.print(productes.get(y-1).getName()+((y<10)?"  | ":" | "));
+                    System.out.print(" "+((matriu[y-1][x])?"-":"X")+((x<9)?" ":"  "));
                 }
             }
+
             if(y==0){
                 System.out.print("\n      ");
-                for(int x=0;x<m.length;x++)
+                for(int x=0;x<matriu.length;x++)
                     System.out.print((x<9)?"___":"____");
             }
             System.out.println();
         }
-        System.out.println();
+        System.out.println("\n");
     }
 
     static private void check_solucio(ArrayList<Producte> productes){

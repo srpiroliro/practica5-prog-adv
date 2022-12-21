@@ -8,24 +8,22 @@ class SolucioVorac {
     private static final double CHANCES=0.5;
 
     public static void main(String[] args){
-        ArrayList<ArrayList<Producte>> solucio =new ArrayList<ArrayList<Producte>>();
         ArrayList<Producte> productes=new ArrayList<Producte>();
         int num_productes;
-       
+        
         System.out.print("Indica quants productes diferents ha d'emmagatzemar l'empresa: ");
         num_productes=Integer.parseInt(System.console().readLine());
         for(int i=0; i<num_productes; i++) productes.add(new Producte(i+1));
-
+        
         System.out.println("\nAra es procedeix a generar les deades aleatòries:");
         generate_reactives(productes, num_productes);
-
-        boolean matriu[][]=new boolean[num_productes][num_productes];
-        spawn_matriu(matriu, productes);
-        check_matriu(matriu, productes);
-
-        for(int i=0; i<num_productes+1; i++) solucio.add(new ArrayList<Producte>());
         
+        boolean matriu[][]=new boolean[num_productes][num_productes];
+        do_matriu(matriu, productes);
 
+        ArrayList<ArrayList<Producte>> solucio =new ArrayList<ArrayList<Producte>>(num_productes+1);
+        // for(int i=0; i<num_productes+1; i++) solucio.add(new ArrayList<Producte>());
+        
         ArrayList<Producte> copia_productes=new ArrayList<Producte>(productes);
 
         Greedy(solucio, copia_productes, num_productes, matriu);
@@ -65,15 +63,24 @@ class SolucioVorac {
         int j=0, calaix;
         while(j<productes_posibles.size()){
 
-            calaix=0;
-            while(calaix<best_solution.size()&&danger(productes_posibles.get(j),best_solution.get(calaix),matriu)) calaix++;
-            if(calaix==best_solution.size()) best_solution.add(new ArrayList<Producte>());
-
+            calaix=get_calaix(best_solution, productes_posibles.get(j), matriu);
             productes_posibles.get(j).setCalaix(calaix);
+
             best_solution.get(calaix).add(productes_posibles.get(j));
 
             j++;
         }
+    }
+
+    static int get_calaix(ArrayList<ArrayList<Producte>> best_solution, Producte producte, boolean[][] matriu){
+        int calaix=0;
+        while(calaix<best_solution.size()&&danger(producte,best_solution.get(calaix),matriu)) 
+            calaix++;
+
+        if(calaix==best_solution.size()) 
+            best_solution.add(new ArrayList<Producte>());
+
+        return calaix;
     }
 
     static void del_last_elem(ArrayList<ArrayList<Producte>> best_solution, int calaix){
@@ -88,34 +95,27 @@ class SolucioVorac {
         return false;
     } 
 
-    static void spawn_matriu(boolean[][] matriu, ArrayList<Producte> prs){
-        for(int y=0;y<matriu.length;y++) 
-            for(int x=0;x<matriu.length;x++) 
-                matriu[y][x]=prs.get(y).es_reactiu(prs.get(x));
-    }
+    static void do_matriu(boolean[][] matriu, ArrayList<Producte> productes){
+        System.out.print("\n       ");
 
-    static private void check_matriu(boolean[][] m, ArrayList<Producte> productes){
-        System.out.print("       ");
-        for(int y=0;y<m.length+1;y++){
-            for(int x=0;x<m.length;x++) {
+        for(int y=0;y<matriu.length+1;y++){
+            for(int x=0;x<matriu.length;x++){
                 if(y==0) System.out.print(productes.get(x).getName()+" ");
                 else{
-                    if(x==0)
-                        System.out.print(productes.get(y-1).getName()+((y<10)?"  | ":" | "));
-                    
-                    System.out.print(" "+((m[y-1][x])?"-":"X")+((x<9)?" ":"  "));
+                    matriu[y-1][x]=productes.get(y-1).es_reactiu(productes.get(x));
+                    if(x==0) System.out.print(productes.get(y-1).getName()+((y<10)?"  | ":" | "));
+                    System.out.print(" "+((matriu[y-1][x])?"-":"X")+((x<9)?" ":"  "));
                 }
             }
+
             if(y==0){
                 System.out.print("\n      ");
-                for(int x=0;x<m.length;x++)
+                for(int x=0;x<matriu.length;x++)
                     System.out.print((x<9)?"___":"____");
-                
             }
             System.out.println();
         }
-
-        System.out.println();
+        System.out.println("\n");
     }
 
     static private void check_solucio(ArrayList<Producte> productes){
