@@ -99,7 +99,6 @@ class SolucioBack {
             productes_posibles.add(tmp);
             j++;
         }
-
     }
 
     static void del_last_elem(ArrayList<ArrayList<Producte>> current_solution, int calaix){
